@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
+from flask import Flask, request,jsonify
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 
 app = Flask(__name__)
