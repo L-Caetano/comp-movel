@@ -12,8 +12,6 @@ Singer_update_args.add_argument("name", type=str, help="Name of the Singer is re
 resource_fields = {
 	'id': fields.Integer,
 	'name': fields.String,
-	'album': fields.Integer,
-	'songs': fields.Integer
 }
 class Singer(Resource):
 	@marshal_with(resource_fields)

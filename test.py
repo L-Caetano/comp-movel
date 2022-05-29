@@ -2,14 +2,23 @@ import requests
 
 BASE = "http://127.0.0.1:5000/"
 
-data = [{"name":"name","singer":1,"album":1},{"name":"name","singer":1,"album":1},{"name":"name","singer":1,"album":1}]
-data = [{"name":"bladee"}]
-data = [{"name":"AAAAAAAAAAAAAAAA","singer":2}]
+data1 = [{"name":"Bladee"}]
+data2 = [{"name":"Working on dying", "singer":1}]
+data3 = [{"name":"Redlight Moments","album":2}]
 
-response = requests.get(BASE + "singer/"+str(3) )
-#response = requests.post(BASE + "postSinger/",data[0] )
-#response = requests.post(BASE + "postAlbum/",data[0])
-response = requests.get(BASE + "album/"+str(5) )
+
+#response = requests.post(BASE + "postSinger/",data1[0] )
+#print(response.json())
+#response = requests.post(BASE + "postAlbum/",data2[0])
+#print(response.json())
+#response = requests.post(BASE + "postSong/",data3[0])
+#print(response.json())
+#response = requests.get(BASE + "album/"+str(2) )
+#print(response.json())
+#response = requests.get(BASE + "singer/"+str(1) )
+#print(response.json())
+response = requests.get(BASE + "song/"+str(1) )
+
 print(response.json())
 
 
