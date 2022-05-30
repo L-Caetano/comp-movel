@@ -3,10 +3,10 @@ from model import SingerModel
 from __init import db, request, app
 
 Singer_put_args = reqparse.RequestParser()
-Singer_put_args.add_argument("name", type=str, help="Name of the Singer is required", required=True)
+Singer_put_args.add_argument("name", type=str, help="Nome do artista é necessario", required=True)
 
 Singer_update_args = reqparse.RequestParser()
-Singer_update_args.add_argument("name", type=str, help="Name of the Singer is required")
+Singer_update_args.add_argument("name", type=str, help="Nome do artista é necessario")
 
 
 resource_fields = {
@@ -18,7 +18,7 @@ class Singer(Resource):
 	def get(self, singer_id):
 		result = SingerModel.query.filter_by(id=singer_id).first()
 		if not result:
-			abort(404, message="Could not find Singer with that id")
+			abort(404, message="Não foi possivel encotrar uma musica com esse id")
 		return result
 
 	@marshal_with(resource_fields)
@@ -38,7 +38,7 @@ class Singer(Resource):
 		args = Singer_update_args.parse_args()
 		result = SingerModel.query.filter_by(id=singer_id).first()
 		if not result:
-			abort(404, message="Singer doesn't exist, cannot update")
+			abort(404, message="Cantor não existe, não foi possivel mudar")
 
 		if args['name']:
 			result.name = args['name']
@@ -60,7 +60,7 @@ class Singer(Resource):
 	def postNewSinger():
 		if request.method == 'POST':
 			Singer_put_args = reqparse.RequestParser()
-			Singer_put_args.add_argument("name", type=str, help="Name of the Singer is required", required=True)
+			Singer_put_args.add_argument("name", type=str, help="Nome do artista é necessario", required=True)
 			args = Singer_put_args.parse_args()
 			Singer = SingerModel(name=args['name'])
 			db.session.add(Singer)

@@ -3,14 +3,14 @@ from model import AlbumModel
 from __init import db,app,request, jsonify
 
 Album_put_args = reqparse.RequestParser()
-Album_put_args.add_argument("name", type=str, help="Name of the Album is required", required=True)
-Album_put_args.add_argument("singer", type=int, help="singer on the Album", required=True)
+Album_put_args.add_argument("name", type=str, help="Nome do album é necessario", required=True)
+Album_put_args.add_argument("singer", type=int, help="Singer é necessario", required=True)
 
 
 
 Album_update_args = reqparse.RequestParser()
-Album_update_args.add_argument("name", type=str, help="Name of the Album is required")
-Album_update_args.add_argument("singer", type=int, help="singer on the Album")
+Album_update_args.add_argument("name", type=str, help="Nome do album é necessario")
+Album_update_args.add_argument("singer", type=int, help="Singer é necessario")
 
 resource_fields = {
 	'id': fields.Integer,
@@ -62,8 +62,8 @@ class Album(Resource):
 	def postNewAlbum():
 		if request.method == 'POST':
 			Album_put_args = reqparse.RequestParser()
-			Album_put_args.add_argument("name", type=str, help="Name of the Album is required", required=True)
-			Album_put_args.add_argument("singer", type=int, help="singer on the Album", required=True)
+			Album_put_args.add_argument("name", type=str, help="Nome do album é necessario", required=True)
+			Album_put_args.add_argument("singer", type=int, help="Singer é necessario", required=True)
 			args = Album_put_args.parse_args()
 			print('aaaa:')
 			Album = AlbumModel(name=args['name'],singer_id=args['singer'])
