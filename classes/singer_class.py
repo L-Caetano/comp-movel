@@ -75,19 +75,12 @@ class Singer(Resource):
 	@app.route("/getAllSingers/", methods = ['GET'])
 	def getAllSingers():
 			if request.method == 'GET':
-				singer_id = request.args.get('singer_id')
-				p = db.session.query(AlbumModel.id, SingerModel.id).filter(SingerModel.id == AlbumModel.singer_id).filter_by(singer_id=singer_id)
-				print("FUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK ME")
+				p = SingerModel.query.all()
 				print(p)
-				print("FUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK ME")
-				
-			#p = SingerModel.query.all()
-			#print(p)
-			#z = []
-			#for x in p:
-			#	z.append(json.dumps(x))
-			#print("aaaaaaaa")
-			#print(z)
+				z = []
+				for x in p:
+					z.append(x.to_json())
+			print(z)
+
 			
-			
-			return p, 201
+			return json.dumps(z), 201

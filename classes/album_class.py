@@ -76,11 +76,22 @@ class Album(Resource):
 			db.session.commit()
 		return Album.to_json(), 201
 
+	@app.route("/getAlbumBySinger/", methods = ['GET'])
+	def getAlbumBySinger():
+		if request.method == 'GET':
+			singer_id = request.args.get('singer_id')		
+			z = []
+			for p in AlbumModel.query.filter_by(singer_id = singer_id):
+				z.append(p.to_json())
+			print(p)
+			
+		return json.dumps(z), 201
+
 	@app.route("/getAllAlbum/", methods = ['GET'])
 	def getAllAlbum():
 		if request.method == 'GET':
 			p = AlbumModel.query.all()
-			print(p)
+			
 		
 			z = []
 			#y = []
@@ -88,10 +99,10 @@ class Album(Resource):
 			for x in p:
 				px = []
 				for xu in SongModel.query.filter_by(album_id = x.id):	
-					print("aaa")
+					
 					px.append(xu.to_json())
 				y = {"album": x.to_json(),"songs": px}
 				z.append(y)
 
-			print(z)
+			
 		return json.dumps(z), 201
