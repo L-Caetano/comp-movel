@@ -70,3 +70,14 @@ class Song(Resource):
 			db.session.commit()
 		return Song.to_json(), 201
 		#return str(args['album'])
+
+	@app.route("/getAllSongs/", methods = ['GET'])
+	def getAllSongs():
+		if request.method == 'GET':
+			p = SongModel.query.all()
+			print(p)
+			z = []
+			for x in p:
+				z.append(x.to_json())
+			print(z)
+		return json.dumps(z), 201

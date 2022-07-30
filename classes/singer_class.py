@@ -1,6 +1,10 @@
 from flask_restful import  Resource, reqparse, abort, fields, marshal_with
 from model import SingerModel
+from model import AlbumModel
+from flask import jsonify
+from sqlalchemy.orm import sessionmaker
 from __init import db, request, app
+import json
 
 Singer_put_args = reqparse.RequestParser()
 Singer_put_args.add_argument("name", type=str, help="Nome do artista é necessario", required=True)
@@ -66,3 +70,24 @@ class Singer(Resource):
 			db.session.add(Singer)
 			db.session.commit()
 		return str(Singer), 201
+
+
+	@app.route("/getAllSingers/", methods = ['GET'])
+	def getAllSingers():
+			if request.method == 'GET':
+				singer_id = request.args.get('singer_id')
+				p = db.session.query(AlbumModel.id, SingerModel.id).filter(SingerModel.id == AlbumModel.singer_id).filter_by(singer_id=singer_id)
+				print("FUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK ME")
+				print(p)
+				print("FUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK MEFUCK ME FUCK ME")
+				
+			#p = SingerModel.query.all()
+			#print(p)
+			#z = []
+			#for x in p:
+			#	z.append(json.dumps(x))
+			#print("aaaaaaaa")
+			#print(z)
+			
+			
+			return p, 201

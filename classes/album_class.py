@@ -1,6 +1,9 @@
 from flask_restful import  Resource, reqparse, abort, fields, marshal_with
 from model import AlbumModel
+from model import SongModel
+
 from __init import db,app,request, jsonify
+import json
 
 Album_put_args = reqparse.RequestParser()
 Album_put_args.add_argument("name", type=str, help="Nome do album é necessario", required=True)
@@ -17,6 +20,8 @@ resource_fields = {
 	'name': fields.String,
 	'singer': fields.Integer
 }
+
+
 class Album(Resource):
 	
 	def get(self, album_id):
@@ -70,3 +75,23 @@ class Album(Resource):
 			db.session.add(Album)
 			db.session.commit()
 		return Album.to_json(), 201
+
+	@app.route("/getAllAlbum/", methods = ['GET'])
+	def getAllAlbum():
+		if request.method == 'GET':
+			p = AlbumModel.query.all()
+			print(p)
+		
+			z = []
+			#y = []
+		
+			for x in p:
+				px = []
+				for xu in SongModel.query.filter_by(album_id = x.id):	
+					print("aaa")
+					px.append(xu.to_json())
+				y = {"album": x.to_json(),"songs": px}
+				z.append(y)
+
+			print(z)
+		return json.dumps(z), 201
