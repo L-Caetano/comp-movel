@@ -1,5 +1,5 @@
 from flask_restful import  Resource, reqparse, abort, fields, marshal_with
-from model import SongModel
+from model import SongModel, AlbumModel
 from __init import db,app,request, jsonify
 from classes.album_class import Album
 import json
@@ -30,32 +30,35 @@ class Song(Resource):
 	def put(self, song_id):
 		args = song_put_args.parse_args()
 		result = SongModel.query.filter_by(id=song_id).first()
-		if result:
-			abort(409, message="Id da musica já utilizado")
-		song = SongModel(id=song_id, name=args['name'], album=args['album'], singer=args['album']['singer'])
-		db.session.add(song)
+		result.name=args['name'], 
+		result.album=args['album']
+		db.session.add(result)
 		db.session.commit()
-		return song, 201
+		return result, 201
 
 	@marshal_with(resource_fields)
 	def patch(self, song_id):
 		args = song_update_args.parse_args()
+		
 		result = SongModel.query.filter_by(id=song_id).first()
 		if not result:
 			abort(404, message="Musica não existe não foi possivel ser mudada")
-
+		
 		if args['name']:
 			result.name = args['name']
 		if args['album']:
-			result.album = args['album']
-
+			result.album = AlbumModel.query.filter_by(id=args['album']).first()
+		db.session.add(result)
 		db.session.commit()
 
-		return result
+		return '', 201
 
 
 	def delete(self, song_id):
-		
+		result = SongModel.query.filter_by(id=song_id).first() 
+		if result:
+			db.session.delete(result)
+			db.session.commit()
 		return '', 204
 	
 	@app.route("/postSong/", methods = ['POST'])
