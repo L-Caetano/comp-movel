@@ -57,7 +57,12 @@ class Singer(Resource):
 
 
 	def delete(self, singer_id):
-		
+		result = SingerModel.query.filter_by(id=singer_id).first() 
+		if result:
+			db.session.delete(result)
+			db.session.commit()
+		return '', 204
+
 		return '', 204
 	
 	@app.route("/postSinger/", methods = ['POST'])

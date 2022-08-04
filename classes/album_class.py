@@ -60,7 +60,11 @@ class Album(Resource):
 
 
 	def delete(self, album_id):
+		result = AlbumModel.query.filter_by(id=album_id).first() 
 		
+		if result:
+			db.session.delete(result)
+			db.session.commit()
 		return '', 204
 
 	@app.route("/postAlbum/", methods = ['POST'])
