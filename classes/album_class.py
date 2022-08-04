@@ -1,6 +1,8 @@
 from flask_restful import  Resource, reqparse, abort, fields, marshal_with
 from model import AlbumModel
 from model import SongModel
+from model import SingerModel
+
 from classes.song_class import Song
 
 from __init import db,app,request, jsonify
@@ -35,13 +37,12 @@ class Album(Resource):
 	def put(self, album_id):
 		args = Album_put_args.parse_args()
 		result = AlbumModel.query.filter_by(id=album_id).first()
-		if result:
-			abort(409, message="Album id taken...")
-
-		Album = AlbumModel(id=album_id, name=args['name'], singer=args['singer'])
-		db.session.add(Album)
+		
+		result.name=args['name'], 
+		result.singer=args['singer']
+		db.session.add(result)
 		db.session.commit()
-		return Album, 201
+		return result, 201
 
 	@marshal_with(resource_fields)
 	def patch(self, album_id):
@@ -53,11 +54,12 @@ class Album(Resource):
 		if args['name']:
 			result.name = args['name']
 		if args['singer']:
-			result.singer = args['singer']
+			result.singer = SingerModel.query.filter_by(id=args['singer']).first()
 
+		db.session.add(result)
 		db.session.commit()
 
-		return result
+		return '', 201
 
 
 	def delete(self, album_id):
