@@ -1,6 +1,7 @@
 from flask_restful import  Resource, reqparse, abort, fields, marshal_with
 from model import AlbumModel
 from model import SongModel
+from classes.song_class import Song
 
 from __init import db,app,request, jsonify
 import json
@@ -61,7 +62,6 @@ class Album(Resource):
 
 	def delete(self, album_id):
 		result = AlbumModel.query.filter_by(id=album_id).first() 
-		
 		if result:
 			db.session.delete(result)
 			db.session.commit()

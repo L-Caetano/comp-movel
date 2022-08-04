@@ -63,7 +63,6 @@ class Singer(Resource):
 			db.session.commit()
 		return '', 204
 
-		return '', 204
 	
 	@app.route("/postSinger/", methods = ['POST'])
 	def postNewSinger():

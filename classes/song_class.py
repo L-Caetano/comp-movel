@@ -1,7 +1,6 @@
 from flask_restful import  Resource, reqparse, abort, fields, marshal_with
 from model import SongModel, AlbumModel
 from __init import db,app,request, jsonify
-from classes.album_class import Album
 import json
 
 
