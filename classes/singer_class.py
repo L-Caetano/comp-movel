@@ -62,7 +62,20 @@ class Singer(Resource):
 			db.session.delete(result)
 			db.session.commit()
 		return '', 204
+	
+	@marshal_with(resource_fields)
+	def patch(self, singer_id):
+		args = Singer_put_args.parse_args()
+		result = SingerModel.query.filter_by(id=singer_id).first()
+		if not result:
+			abort(404, message="Musica não existe não foi possivel ser mudada")	
+		if args['name']:
+			result.name = args['name']
+	
+		db.session.add(result)
+		db.session.commit()
 
+		return '', 201
 	
 	@app.route("/postSinger/", methods = ['POST'])
 	def postNewSinger():
